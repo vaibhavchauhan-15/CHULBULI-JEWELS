@@ -1,0 +1,483 @@
+📘 PRODUCT REQUIREMENTS DOCUMENT (PRD)
+Project: CHULBULI JEWELS – E-Commerce Jewelry Platform
+1. Product Overview
+1.1 Vision
+
+To build a lightweight, elegant, and trustworthy online jewelry store for women, offering a smooth shopping experience, authentic reviews, and efficient admin control — while keeping development and maintenance costs low.
+
+1.2 Goals
+
+Sell jewelry online (B2C)
+
+Enable product-specific reviews
+
+Provide a powerful but simple admin panel
+
+Create a professional feminine design (not flashy)
+
+Use modern, scalable, low-cost tech stack
+
+Launch fast (MVP-first approach)
+
+2. Target Users
+2.1 Primary Users (Customers)
+
+Women aged 18–40
+
+Interested in:
+
+Fashion jewelry
+
+Daily wear & festive jewelry
+
+Affordable + premium look
+
+Mostly mobile users
+
+2.2 Admin Users
+
+Store owner
+
+Inventory & order manager
+
+Marketing / content handler
+
+3. Core Features (MVP)
+4. User Side Features
+4.1 Authentication
+
+Sign up / Login
+
+Email + Password
+
+Optional Google login (Phase 2)
+
+Guest checkout (MVP friendly)
+
+4.2 Product Catalog
+
+Categories:
+
+Earrings
+
+Necklaces
+
+Rings
+
+Bangles
+
+Sets
+
+Filters:
+
+Price range
+
+Material
+
+Popular / New / Best Seller
+
+Sorting:
+
+Price (low → high)
+
+Latest
+
+Rating
+
+4.3 Product Detail Page
+
+Each jewelry product includes:
+
+High-quality images (zoom support)
+
+Name
+
+Price
+
+Discount (if any)
+
+Stock status
+
+Description
+
+Material & care info
+
+Customer reviews (product-specific) ⭐
+
+“Add to Cart” button
+
+4.4 Reviews & Ratings
+
+Only verified buyers can review
+
+Rating: ⭐ 1–5
+
+Text review
+
+Admin moderation (approve/delete)
+
+Reviews tied to specific product IDs
+
+4.5 Cart & Checkout
+
+Add / Remove products
+
+Quantity control
+
+Price breakdown
+
+Address form
+
+Payment:
+
+Cash on Delivery (MVP)
+
+Razorpay / Stripe (Phase 2)
+
+4.6 Order Tracking
+
+Order status:
+
+Placed
+
+Packed
+
+Shipped
+
+Delivered
+
+Order history in user dashboard
+
+5. Admin Panel Features
+5.1 Admin Authentication
+
+Secure admin login
+
+Role-based access (future)
+
+5.2 Product Management
+
+Add new jewelry
+
+Upload images
+
+Set price & discount
+
+Assign category
+
+Mark featured products
+
+Edit / delete products
+
+5.3 Inventory Management
+
+Stock quantity tracking
+
+Low stock alerts
+
+Auto stock deduction after order
+
+Manual stock update
+
+5.4 Order Management
+
+View all orders
+
+Update order status
+
+View customer details
+
+Export orders (CSV)
+
+5.5 Sales Dashboard
+
+Total sales
+
+Daily / monthly revenue
+
+Best-selling products
+
+Order count
+
+Simple analytics (MVP)
+
+5.6 Review Moderation
+
+Approve / reject reviews
+
+Delete spam or fake reviews
+
+6. UI / UX Design Requirements
+6.1 Theme (Girls-Centric but Professional)
+
+Color Palette (Soft & Elegant):
+
+Blush Pink (#F5C6D6)
+
+Rose Gold (#B76E79)
+
+Ivory White (#FFF8F2)
+
+Charcoal Grey (#333333)
+
+⚠️ Avoid:
+
+Neon colors
+
+Over-saturation
+
+Heavy gradients
+
+6.2 Design Style
+
+Minimal
+
+Clean whitespace
+
+Rounded cards
+
+Soft shadows
+
+Elegant typography
+
+Fonts:
+
+Headings: Playfair Display / Poppins
+
+Body: Inter / Montserrat
+
+6.3 Mobile-First Design
+
+80% traffic expected from mobile
+
+Thumb-friendly buttons
+
+Fast loading
+
+7. Technology Stack (Best-in-Class & Low Cost)
+7.1 Frontend (Modern & Fast)
+
+Recommended:
+
+Next.js (React Framework)
+
+SEO-friendly
+
+Fast rendering
+
+Scalable
+
+Tailwind CSS
+
+Clean UI
+
+Rapid styling
+
+No heavy CSS files
+
+7.2 Backend (Light & Scalable)
+
+Recommended:
+
+Node.js + Express
+
+Easy to maintain
+
+Huge ecosystem
+
+REST API architecture
+
+OR (Even simpler for startup):
+
+Next.js API Routes (Backend + Frontend together)
+
+7.3 Database
+
+Best Choice for Startup:
+
+PostgreSQL
+
+Reliable
+
+Structured data
+
+Strong relationships (orders, users, reviews)
+
+Alternative:
+
+MongoDB (if schema flexibility needed)
+
+7.4 Authentication
+
+JWT (JSON Web Tokens)
+
+Secure password hashing (bcrypt)
+
+7.5 Image Storage
+
+Cloudinary (Free tier)
+
+Optimized jewelry images
+
+CDN delivery
+
+7.6 Hosting (Low Cost)
+
+Frontend + Backend: Vercel
+
+Database: Supabase / Neon
+
+Domain + SSL: Free SSL included
+
+8. Database Schema (Simplified)
+Users
+
+id
+
+name
+
+email
+
+password
+
+role
+
+created_at
+
+Products
+
+id
+
+name
+
+description
+
+price
+
+discount
+
+category
+
+stock
+
+images[]
+
+created_at
+
+Orders
+
+id
+
+user_id
+
+total_price
+
+status
+
+address
+
+created_at
+
+Order_Items
+
+order_id
+
+product_id
+
+quantity
+
+price
+
+Reviews
+
+id
+
+product_id
+
+user_id
+
+rating
+
+comment
+
+approved
+
+created_at
+
+9. Security Requirements
+
+HTTPS everywhere
+
+Input validation
+
+SQL injection protection
+
+Rate limiting on APIs
+
+Admin route protection
+
+10. Performance & SEO
+
+Image optimization
+
+Lazy loading
+
+Server-side rendering (Next.js)
+
+SEO-friendly URLs
+
+Meta tags for products
+
+11. Cost Optimization Strategy
+
+Open-source stack
+
+Free tiers (Vercel, Supabase)
+
+No paid UI kits
+
+Modular development
+
+MVP first → scale later
+
+12. Future Enhancements (Phase 2)
+
+Wishlist ❤️
+
+Coupons & offers
+
+Instagram product sync
+
+WhatsApp order notifications
+
+AI-based recommendations
+
+Multi-language (Hindi/English)
+
+13. MVP Timeline (Solo / Small Team)
+
+Planning & Design: 5 days
+
+Frontend: 10 days
+
+Backend & DB: 7 days
+
+Admin Panel: 5 days
+
+Testing & Launch: 3 days
+
+⏱ Total: ~30 days
+
+14. Final Summary
+
+CHULBULI JEWELS should feel:
+
+Elegant ✨
+
+Trustworthy 🤍
+
+Simple 🛍️
+
+Scalable 🚀
+
+This PRD is startup-ready, investor-friendly, and developer-optimized.

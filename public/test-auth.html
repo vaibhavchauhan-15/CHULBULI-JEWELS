@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #d4a574;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #c49563;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Authentication Test</h1>
+    
+    <div class="form-group">
+        <label>Name (for signup only):</label>
+        <input type="text" id="name" value="Test User">
+    </div>
+    
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" id="email" value="admin@chulbulijewels.com">
+    </div>
+    
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" id="password" value="Admin@123">
+    </div>
+    
+    <button onclick="testSignup()">Test Signup</button>
+    <button onclick="testLogin()">Test Login</button>
+    <button onclick="clearResult()">Clear</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        async function testSignup() {
+            const result = document.getElementById('result');
+            result.className = '';
+            result.textContent = 'Testing signup...';
+            
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value + Date.now(),
+                        password: document.getElementById('password').value,
+                    }),
+                });
+                
+                const data = await response.json();
+                result.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                result.className = response.ok ? 'success' : 'error';
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+                result.className = 'error';
+            }
+        }
+        
+        async function testLogin() {
+            const result = document.getElementById('result');
+            result.className = '';
+            result.textContent = 'Testing login...';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value,
+                    }),
+                });
+                
+                const data = await response.json();
+                result.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                result.className = response.ok ? 'success' : 'error';
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+                result.className = 'error';
+            }
+        }
+        
+        function clearResult() {
+            document.getElementById('result').textContent = '';
+            document.getElementById('result').className = '';
+        }
+    </script>
+</body>
+</html>

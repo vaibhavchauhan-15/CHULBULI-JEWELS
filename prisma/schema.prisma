@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("customer") // customer, admin
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders  Order[]
+  reviews Review[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  price       Float
+  discount    Float    @default(0)
+  category    String // earrings, necklaces, rings, bangles, sets
+  stock       Int
+  images      String[] // Array of image URLs
+  material    String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orderItems OrderItem[]
+  reviews    Review[]
+
+  @@index([category])
+  @@index([featured])
+  @@index([price])
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  totalPrice  Float
+  status      String   @default("placed") // placed, packed, shipped, delivered
+  
+  // Address fields
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  addressLine1    String
+  addressLine2    String?
+  city            String
+  state           String
+  pincode         String
+  
+  paymentMethod String @default("cod") // cod, online
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int // 1-5
+  comment   String   @db.Text
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  @@index([approved])
+  @@unique([productId, userId])
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([userId])
+}

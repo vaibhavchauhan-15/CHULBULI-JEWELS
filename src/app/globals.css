@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply font-inter bg-ivory text-charcoal;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+}
+
+@layer utilities {
+  .btn-primary {
+    @apply bg-rose-gold text-white px-6 py-3 rounded-lg font-medium hover:bg-rose-gold/90 transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-blush-pink text-charcoal px-6 py-3 rounded-lg font-medium hover:bg-blush-pink/80 transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-gold/50 focus:border-rose-gold transition-all;
+  }
+}
