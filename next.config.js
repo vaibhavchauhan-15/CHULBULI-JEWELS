@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    }
+    return config
+  },
   images: {
     domains: ['res.cloudinary.com', 'images.unsplash.com'],
     remotePatterns: [
