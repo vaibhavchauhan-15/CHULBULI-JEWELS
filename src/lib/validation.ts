@@ -3,19 +3,30 @@
  * Protects against XSS, SQL Injection, and malformed inputs
  */
 
-import DOMPurify from 'isomorphic-dompurify'
 import { z } from 'zod'
 import { SECURITY_CONFIG } from './config'
 import { isCommonPassword, calculatePasswordStrength } from './passwordSecurity'
 
 /**
  * Sanitize HTML content to prevent XSS attacks
+ * Simple implementation that removes all HTML tags and dangerous characters
  */
 export function sanitizeHtml(dirty: string): string {
-  return DOMPurify.sanitize(dirty, {
-    ALLOWED_TAGS: [], // Strip all HTML tags
-    ALLOWED_ATTR: [],
-  })
+  if (typeof dirty !== 'string') return ''
+  
+  // Remove HTML tags
+  let clean = dirty.replace(/<[^>]*>/g, '')
+  
+  // Escape dangerous characters
+  clean = clean
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;')
+  
+  return clean
 }
 
 /**

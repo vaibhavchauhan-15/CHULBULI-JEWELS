@@ -21,7 +21,6 @@
     "date-fns": "^3.2.0",
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
-    "isomorphic-dompurify": "^2.35.0",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.22",
     "next-auth": "^4.24.5",
