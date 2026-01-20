@@ -14,19 +14,27 @@ export function middleware(request: NextRequest) {
   // Prevent clickjacking
   response.headers.set('X-Frame-Options', 'DENY')
   
-  // Validate origin for state-changing requests
+  // Validate origin for state-changing requests (CSRF protection)
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method)) {
     const origin = request.headers.get('origin')
     const host = request.headers.get('host')
     
     // In production, validate origin matches host
-    if (process.env.NODE_ENV === 'production' && origin) {
-      const originHost = new URL(origin).host
-      if (originHost !== host) {
-        return NextResponse.json(
-          { error: 'Invalid request origin' },
-          { status: 403 }
-        )
+    // Skip validation if origin is not present (e.g., same-origin requests from server)
+    if (process.env.NODE_ENV === 'production' && origin && host) {
+      try {
+        const originHost = new URL(origin).host
+        // Allow requests from the same host
+        if (originHost !== host) {
+          console.error('Origin mismatch:', { origin: originHost, host })
+          return NextResponse.json(
+            { error: 'Invalid request origin' },
+            { status: 403 }
+          )
+        }
+      } catch (error) {
+        // If origin parsing fails, log and allow the request
+        console.error('Origin validation error:', error)
       }
     }
   }

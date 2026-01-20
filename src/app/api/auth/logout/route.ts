@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 import { logAuthEvent, AuditAction } from '@/lib/auditLog'
 
+// Force Node.js runtime for compatibility
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 /**
  * Logout endpoint - clears the auth cookie
  */
@@ -28,7 +32,7 @@ export async function POST(request: NextRequest) {
   response.cookies.set('auth_token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'strict',
     maxAge: 0, // Expire immediately
     path: '/',
   })
