@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { FiCheckCircle } from 'react-icons/fi'
 
-export default function OrderSuccessPage() {
+function OrderSuccessContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const orderId = searchParams.get('orderId')
@@ -19,9 +19,7 @@ export default function OrderSuccessPage() {
   }, [orderId, router])
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen pt-24 px-4 pb-12 flex items-center justify-center">
+    <main className="min-h-screen pt-24 px-4 pb-12 flex items-center justify-center">
         <div className="max-w-2xl w-full text-center">
           <div className="card p-12">
             <div className="flex justify-center mb-6">
@@ -33,7 +31,7 @@ export default function OrderSuccessPage() {
             </h1>
 
             <p className="text-gray-600 mb-2">
-              Thank you for your order. We've received your order and will process it soon.
+              Thank you for your order. We&apos;ve received your order and will process it soon.
             </p>
 
             {orderId && (
@@ -63,7 +61,7 @@ export default function OrderSuccessPage() {
                 </div>
                 <div className="flex gap-3">
                   <span className="font-semibold text-rose-gold">2.</span>
-                  <p>We'll pack your order with care</p>
+                  <p>We&apos;ll pack your order with care</p>
                 </div>
                 <div className="flex gap-3">
                   <span className="font-semibold text-rose-gold">3.</span>
@@ -78,6 +76,22 @@ export default function OrderSuccessPage() {
           </div>
         </div>
       </main>
+  )
+}
+
+export default function OrderSuccessPage() {
+  return (
+    <>
+      <Navbar />
+      <Suspense fallback={
+        <main className="min-h-screen pt-24 px-4 pb-12 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-gold mx-auto"></div>
+          </div>
+        </main>
+      }>
+        <OrderSuccessContent />
+      </Suspense>
       <Footer />
     </>
   )

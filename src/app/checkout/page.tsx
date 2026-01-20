@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -10,9 +10,14 @@ import toast from 'react-hot-toast'
 
 export default function CheckoutPage() {
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const { items, getTotalPrice, clearCart } = useCartStore()
   const user = useAuthStore((state) => state.user)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const [formData, setFormData] = useState({
     customerName: user?.name || '',
@@ -72,6 +77,18 @@ export default function CheckoutPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (!mounted) {
+    return (
+      <>
+        <Navbar />
+        <main className="min-h-screen pt-24 px-4 pb-12 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-gold"></div>
+        </main>
+        <Footer />
+      </>
+    )
   }
 
   if (items.length === 0) {

@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 import { FiFilter } from 'react-icons/fi'
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -50,9 +50,7 @@ export default function ProductsPage() {
   ]
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen pt-24 px-4 pb-12">
+    <main className="min-h-screen pt-24 px-4 pb-12">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl md:text-4xl font-playfair font-bold">
@@ -158,6 +156,29 @@ export default function ProductsPage() {
           </div>
         </div>
       </main>
+  )
+}
+
+export default function ProductsPage() {
+  return (
+    <>
+      <Navbar />
+      <Suspense fallback={
+        <main className="min-h-screen pt-24 px-4 pb-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="animate-pulse space-y-4">
+              <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="h-96 bg-gray-200 rounded"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+      }>
+        <ProductsContent />
+      </Suspense>
       <Footer />
     </>
   )

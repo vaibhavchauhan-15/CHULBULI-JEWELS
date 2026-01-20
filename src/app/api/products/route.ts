@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma'
 import { apiRateLimiter } from '@/lib/rateLimit'
 import { safeParseFloat } from '@/lib/validation'
 
+// Make this route dynamic to prevent static generation issues
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     // Apply rate limiting to prevent abuse
