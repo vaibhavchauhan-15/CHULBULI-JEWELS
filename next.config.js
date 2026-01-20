@@ -1,10 +1,18 @@
 /** @type {import('next').NextConfig} */
+const path = require('path')
+
 const nextConfig = {
   output: 'standalone',
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
+    // Explicitly resolve @ alias to src directory
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@': path.resolve(__dirname, 'src'),
     }
+    
+    // Ensure proper module resolution
+    config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json']
+    
     return config
   },
   images: {
